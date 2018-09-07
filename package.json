@@ -1,6 +1,6 @@
 {
   "name": "number-formatter-srinivas",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "number formatter project",
   "main": "index.js",
   "scripts": {
