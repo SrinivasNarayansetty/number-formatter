@@ -1,0 +1,26 @@
+{
+  "name": "@srinivasnarayanasetty/number-formatter",
+  "version": "1.0.0",
+  "description": "number formatter project",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SrinivasNarayansetty/number-formatter.git"
+  },
+  "author": "“Srinivas <“srinivas69cse@gmail.com”> (http://srinivasnarayansetty.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SrinivasNarayansetty/number-formatter/issues"
+  },
+  "homepage": "https://github.com/SrinivasNarayansetty/number-formatter#readme",
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
+}
