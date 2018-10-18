@@ -5,7 +5,7 @@ A small library that adds commas to numbers
 
 ## Installation
 
-  `npm install number-formatter-srinivas`
+  `npm install npm-number-formatter`
 
 ## Usage
 
@@ -21,6 +21,13 @@ A small library that adds commas to numbers
 
   `npm test`
 
-## Contributing
+## Demo
+Demo @[npm-number-formatter](https://tonicdev.com/npm/npm-number-formatter)
+| https://tonicdev.com/npm/npm-number-formatter
 
-In lieu of a formal style guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
+## Author
+Srinivas N [srinivas69cse@gmail.com]
+
+## Licence
+MIT @[Srinivas_N](srinivasnarayansetty.com/)
+
