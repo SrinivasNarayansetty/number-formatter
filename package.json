@@ -1,6 +1,6 @@
 {
   "name": "hearty-number-formatter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "number formatter project",
   "main": "index.js",
   "scripts": {
@@ -28,8 +28,6 @@
   },
   "dependencies": {},
   "keywords": [
-    "number-formatter-srinivas",
-    "@srinivas_n/hearty-helper",
     "hearty-helper",
     "hearty-number-formatter"
   ]
