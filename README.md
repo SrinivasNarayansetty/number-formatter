@@ -9,7 +9,7 @@ A small library that adds commas to numbers
 
 ## Usage
 
-    var numFormatter = require('number-formatter-srinivas');
+    var numFormatter = require('npm-number-formatter');
 
     var formattedNum = numFormatter(35666);
   
