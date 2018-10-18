@@ -5,11 +5,11 @@ A small library that adds commas to numbers
 
 ## Installation
 
-  `npm install npm-number-formatter`
+  `npm install hearty-number-formatter`
 
 ## Usage
 
-    var numFormatter = require('npm-number-formatter');
+    var numFormatter = require('hearty-number-formatter');
 
     var formattedNum = numFormatter(35666);
   
@@ -22,8 +22,8 @@ A small library that adds commas to numbers
   `npm test`
 
 ## Demo
-Demo @[npm-number-formatter](https://tonicdev.com/npm/npm-number-formatter)
-| https://tonicdev.com/npm/npm-number-formatter
+Demo @[hearty-number-formatter](https://tonicdev.com/npm/hearty-number-formatter)
+| https://tonicdev.com/npm/hearty-number-formatter
 
 ## Author
 Srinivas N [srinivas69cse@gmail.com]
