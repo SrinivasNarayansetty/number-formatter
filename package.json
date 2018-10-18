@@ -26,5 +26,11 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "keywords": [
+    "number-formatter-srinivas",
+    "@srinivas_n/hearty-helper",
+    "hearty-helper",
+    "hearty-number-formatter"
+  ]
 }
