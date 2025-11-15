@@ -1,34 +1,74 @@
 {
   "name": "hearty-number-formatter",
-  "version": "1.0.2",
-  "description": "number formatter project",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "Beautiful number formatter with React + Tailwind CSS UI - Format numbers with multiple locales, currencies, and custom options",
+  "type": "module",
+  "main": "./src/utils/numberFormatter.js",
+  "exports": {
+    ".": "./src/utils/numberFormatter.js",
+    "./utils": "./src/utils/numberFormatter.js"
+  },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SrinivasNarayansetty/number-formatter.git"
   },
-  "author": "“Srinivas <“srinivas69cse@gmail.com”> (http://srinivasnarayansetty.com/)",
+  "author": "Srinivas <srinivas69cse@gmail.com> (http://srinivasnarayansetty.com/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/SrinivasNarayansetty/number-formatter/issues"
   },
   "homepage": "https://github.com/SrinivasNarayansetty/number-formatter#readme",
   "engines": {
-    "node": ">=4.2.4"
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.2.0"
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "@vitest/ui": "^2.1.5",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.15.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "jsdom": "^27.2.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.5"
   },
-  "directories": {
-    "test": "test"
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
-  "dependencies": {},
   "keywords": [
     "hearty-helper",
-    "hearty-number-formatter"
+    "hearty-number-formatter",
+    "number-formatter",
+    "react",
+    "tailwindcss",
+    "formatter",
+    "currency",
+    "locale",
+    "internationalization",
+    "i18n",
+    "number-format",
+    "format-number",
+    "intl",
+    "number-utility"
   ]
 }
