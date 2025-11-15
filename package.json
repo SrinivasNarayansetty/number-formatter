@@ -16,7 +16,12 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "audit": "yarn audit --level moderate",
+    "audit:fix": "yarn upgrade-interactive --latest",
+    "security-check": "yarn audit && yarn test",
+    "prebuild": "yarn security-check",
+    "prepare": "node -e \"try { require('husky') } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') throw e }\""
   },
   "repository": {
     "type": "git",
@@ -54,6 +59,9 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
+  },
+  "resolutions": {
+    "esbuild": "^0.25.0"
   },
   "keywords": [
     "hearty-helper",

@@ -3,6 +3,19 @@
  */
 
 /**
+ * Validates and sanitizes locale string
+ * @param {string} locale - The locale to validate
+ * @returns {string} Valid locale or default
+ */
+const validateLocale = (locale) => {
+  // Security: Validate locale format to prevent injection
+  if (typeof locale !== 'string' || !locale) return 'en-US';
+  // Locale format: language-COUNTRY or language
+  if (!/^[a-z]{2}(-[A-Z]{2})?$/.test(locale)) return 'en-US';
+  return locale;
+};
+
+/**
  * Formats a number with locale-specific formatting
  * @param {number|string} number - The number to format
  * @param {string} locale - The locale to use (default: 'en-US')
@@ -15,11 +28,12 @@ export const formatNumber = (number, locale = 'en-US') => {
 
   const numValue = typeof number === 'string' ? parseFloat(number) : number;
 
-  if (isNaN(numValue)) {
+  if (isNaN(numValue) || !isFinite(numValue)) {
     return '';
   }
 
-  return numValue.toLocaleString(locale);
+  const safeLocale = validateLocale(locale);
+  return numValue.toLocaleString(safeLocale);
 };
 
 /**
@@ -44,13 +58,29 @@ export const formatNumberCustom = (number, options = {}) => {
 
   let numValue = typeof number === 'string' ? parseFloat(number) : number;
 
-  if (isNaN(numValue)) {
+  if (isNaN(numValue) || !isFinite(numValue)) {
     return '';
   }
 
+  // Security: Sanitize separator inputs to prevent injection
+  const safeSeparators = (sep, defaultSep) => {
+    if (typeof sep !== 'string' || sep.length > 1) return defaultSep;
+    // Only allow safe characters for separators
+    if (/^[,.\s-_]$/.test(sep)) return sep;
+    return defaultSep;
+  };
+
+  const safeThousandsSep = safeSeparators(thousandsSeparator, ',');
+  const safeDecimalSep = safeSeparators(decimalSeparator, '.');
+
+  // Security: Validate decimals parameter
+  const safeDecimals = (decimals !== null && typeof decimals === 'number' && decimals >= 0 && decimals <= 20)
+    ? decimals
+    : null;
+
   // Apply decimal places if specified
-  if (decimals !== null) {
-    numValue = numValue.toFixed(decimals);
+  if (safeDecimals !== null) {
+    numValue = numValue.toFixed(safeDecimals);
   }
 
   const parts = numValue.toString().split('.');
@@ -58,14 +88,26 @@ export const formatNumberCustom = (number, options = {}) => {
   const decimalPart = parts[1];
 
   // Add thousands separator
-  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, safeThousandsSep);
 
   // Combine with decimal part if exists
   if (decimalPart !== undefined) {
-    return formattedInteger + decimalSeparator + decimalPart;
+    return formattedInteger + safeDecimalSep + decimalPart;
   }
 
   return formattedInteger;
+};
+
+/**
+ * Validates currency code
+ * @param {string} currency - The currency code to validate
+ * @returns {string} Valid currency or default
+ */
+const validateCurrency = (currency) => {
+  // Security: Validate currency code format (ISO 4217: 3 uppercase letters)
+  if (typeof currency !== 'string' || !currency) return 'USD';
+  if (!/^[A-Z]{3}$/.test(currency)) return 'USD';
+  return currency;
 };
 
 /**
@@ -82,13 +124,16 @@ export const formatCurrency = (number, currency = 'USD', locale = 'en-US') => {
 
   const numValue = typeof number === 'string' ? parseFloat(number) : number;
 
-  if (isNaN(numValue)) {
+  if (isNaN(numValue) || !isFinite(numValue)) {
     return '';
   }
 
-  return new Intl.NumberFormat(locale, {
+  const safeLocale = validateLocale(locale);
+  const safeCurrency = validateCurrency(currency);
+
+  return new Intl.NumberFormat(safeLocale, {
     style: 'currency',
-    currency: currency,
+    currency: safeCurrency,
   }).format(numValue);
 };
 
@@ -106,14 +151,18 @@ export const formatPercentage = (number, decimals = 2, locale = 'en-US') => {
 
   const numValue = typeof number === 'string' ? parseFloat(number) : number;
 
-  if (isNaN(numValue)) {
+  if (isNaN(numValue) || !isFinite(numValue)) {
     return '';
   }
 
-  return new Intl.NumberFormat(locale, {
+  // Security: Validate decimals parameter
+  const safeDecimals = typeof decimals === 'number' && decimals >= 0 && decimals <= 20 ? decimals : 2;
+  const safeLocale = validateLocale(locale);
+
+  return new Intl.NumberFormat(safeLocale, {
     style: 'percent',
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
+    minimumFractionDigits: safeDecimals,
+    maximumFractionDigits: safeDecimals,
   }).format(numValue / 100);
 };
 
@@ -130,11 +179,13 @@ export const formatCompact = (number, locale = 'en-US') => {
 
   const numValue = typeof number === 'string' ? parseFloat(number) : number;
 
-  if (isNaN(numValue)) {
+  if (isNaN(numValue) || !isFinite(numValue)) {
     return '';
   }
 
-  return new Intl.NumberFormat(locale, {
+  const safeLocale = validateLocale(locale);
+
+  return new Intl.NumberFormat(safeLocale, {
     notation: 'compact',
     compactDisplay: 'short',
   }).format(numValue);
@@ -150,11 +201,23 @@ export const parseFormattedNumber = (formattedNumber) => {
     return null;
   }
 
+  // Security: Only allow strings that contain primarily numeric characters
+  // Reject strings with script tags, code, or other suspicious patterns
+  if (/<|>|script|javascript|alert|eval|function|\(|\)/i.test(formattedNumber)) {
+    return null;
+  }
+
   // Remove all non-numeric characters except decimal point and minus sign
   const cleaned = formattedNumber.replace(/[^\d.-]/g, '');
+
+  // Additional validation: ensure cleaned string is not empty and looks like a number
+  if (!cleaned || !/^-?\d*\.?\d+$/.test(cleaned)) {
+    return null;
+  }
+
   const parsed = parseFloat(cleaned);
 
-  return isNaN(parsed) ? null : parsed;
+  return (isNaN(parsed) || !isFinite(parsed)) ? null : parsed;
 };
 
 /**
